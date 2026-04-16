@@ -70,7 +70,7 @@ class Docker {
             ${sshAgent ? '--env SSH_AUTH_SOCK=/ssh-agent' : ''} \
             --volume "${githubHome}":"/root:z" \
             --volume "${githubWorkflow}":"/github/workflow:z" \
-            --volume "${workspace}":"${dockerWorkspacePath}:z" \
+            --volume "${workspace}":"${}:z" \
             --volume "${actionFolder}/default-build-script:/UnityBuilderAction:z" \
             --volume "${actionFolder}/platforms/ubuntu/steps:/steps:z" \
             --volume "${actionFolder}/platforms/ubuntu/entrypoint.sh:/entrypoint.sh:z" \
@@ -107,7 +107,7 @@ class Docker {
     if (!existsSync(githubHome)) mkdirSync(githubHome);
 
     return `docker run \
-            --workdir c:${dockerWorkspacePath} \
+            --workdir ${dockerWorkspacePath} \
             --rm \
             ${ImageEnvironmentFactory.getEnvVarString(parameters)} \
             --env BEE_CACHE_DIRECTORY=c:${dockerWorkspacePath}/Library/bee_cache \
